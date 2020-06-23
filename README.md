@@ -11,10 +11,30 @@ The weather icons are based on a set originally designed by [Ashley Jager](http:
 
 As an example, the 'chanceflurries' icon (like all the others) has 16384 (16K) pixels.  An uncompressed 16 bits-per-pixel bitmap (the usual for Arduino displays)  would be 32K bytes.  The RLE encoded version is 755 bytes.
 
-(https://raw.githubusercontent.com/MHotchin/RLEBitmap/master/extras/Images/Weather/chanceflurries.bmp)
+![Icon for 'chance of flurries'](https://raw.githubusercontent.com/MHotchin/RLEBitmap/master/extras/Images/Weather/chanceflurries.bmp)
 
 The moon images are provided at many different sizes, from 32x32 to 320x320 pixels.  Each image set consists of one full image of the moon, and 32 different masks for the moon phases.  The moon image is from [NASA](https://www.nasa.gov/feature/goddard/2016/novembers-spectacular-supermoon).
 
 To generated the RLE encodings, a Windows program ('bmper.exe') is provided, with source.  It reads a .BMP file and outputs C++ code for storing the bitmap data.  The output can be re-directed into an appropriately names header file.
 
-For each image set there is also the script ('genrate.cmd') used to re-create it.  For the weather icons, this just uses 'bmper.exe' to create a header file for each icon.  The moon images are more involved - the script to generate the image set also requires ['ImageMagick' version 7](https://imagemagick.org/) to manipulate the images.
+For each image set there is also the script ('generate.cmd') used to re-create it.  For the weather icons, this just uses 'bmper.exe' to create a header file for each icon.  The moon images are more involved - the script to generate the image set also requires ['ImageMagick' version 7](https://imagemagick.org/) to manipulate the images.
+
+# Using RLE Bitmaps.
+
+Because of certain storage constraints, using the RLE encoded bitmaps is a two step process:
+1. Retrieve the information required for rendering into a `RLEBitmapInfo` structure.
+2. Pass the information to the rendering function to do all the work.
+
+When each RLE bitmap is created, also included is a small function to be called to retrieve the bitmap information.  For example, the header file for the 256x256 moon image has the function `get_moon_256_RLEBM`.
+
+In order to render that image, you'd use code similar to this:
+```
+	RLEBitmapInfo bmMoon;
+	get_moon_256_RLEBM(bmMoon);
+
+	renderRLEBitmap(
+		bmMoon,
+		(int16_t)(MONITOR_LCD_WIDTH - 10 - bmMoon.width), 10,
+		pGFX,
+		true);
+```
