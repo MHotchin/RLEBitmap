@@ -348,3 +348,10 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/examples/Moon_Phases/Moon_Phases.vcxproj
+/examples/Moon_Phases/Moon_Phases.vcxproj.filters
+/examples/Moon_Phases/__vm/Configuration.Release.vmps.xml
+/examples/Moon_Phases/__vm/Configuration.Debug.vmps.xml
+/examples/Moon_Phases/__vm/Compile.vmps.xml
+/examples/Moon_Phases/__vm/.Moon_Phases.vsarduino.h
+/examples/Moon_Phases/__vm/Upload.vmps.xml

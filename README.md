@@ -13,9 +13,9 @@ As an example, the 'chanceflurries' icon (like all the others) has 16384 (16K) p
 
 ![Icon for 'chance of flurries'](https://raw.githubusercontent.com/MHotchin/RLEBitmap/master/extras/Images/Weather/chanceflurries.bmp)
 
-The moon images are provided at many different sizes, from 32x32 to 320x320 pixels.  Each image set consists of one full image of the moon, and 32 different masks for the moon phases.  The moon image is from [NASA](https://www.nasa.gov/feature/goddard/2016/novembers-spectacular-supermoon).
+The moon images are provided at many different sizes, from 32x32 to 320x320 pixels.  Each image set consists of one full image of the moon, and 32 different masks for the moon phases.  The moon image is from [NASA](https://www.nasa.gov/feature/goddard/2016/novembers-spectacular-supermoon), and as such has no copyright.
 
-To generated the RLE encodings, a Windows program ('bmper.exe') is provided, with source.  It reads a .BMP file and outputs C++ code for storing the bitmap data.  The output can be re-directed into an appropriately names header file.
+To generate the RLE encodings, a Windows program ('bmper.exe') is provided, with source.  It reads a .BMP file and outputs C++ code for storing the bitmap data.  The output can be re-directed into an appropriately names header file.  Input images are limited to *256* unique colors!
 
 For each image set there is also the script ('generate.cmd') used to re-create it.  For the weather icons, this just uses 'bmper.exe' to create a header file for each icon.  The moon images are more involved - the script to generate the image set also requires ['ImageMagick' version 7](https://imagemagick.org/) to manipulate the images.
 
