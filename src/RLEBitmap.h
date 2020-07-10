@@ -30,8 +30,6 @@
 #ifndef _RLEBITMAP_h
 #define _RLEBITMAP_h
 
-class Adafruit_GFX;
-
 #if not defined PROGMEM_LATE
 #if defined ARDUINO_ARCH_AVR
 #define PROGMEM_LATE __attribute__ (( __section__(".fini1") ))
@@ -55,21 +53,134 @@ struct RLEBitmapInfo
 	byte flags;
 };
 
-void 
-renderRLEBitmap(
+
+//  Adaptor class for different kinds of graphics contexts.  
+class RLEGraphicsContext
+{
+public:
+	//  These have the same semantics as the same functions in the Adafruit GFX class.  If
+	//  your context does not support a transaction style API, the first two can be
+	//  defined to do nothing and do all the work in writeFastHLine().
+	virtual void startWrite() = 0;
+	virtual void endWrite() = 0;
+	virtual void writeFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color) = 0;
+
+
+protected:
+	~RLEGraphicsContext() {};
+
+};
+
+void renderRLEBitmap(
 	const RLEBitmapInfo &bitmapInfo, // Bitmap information retreived previously.
 	int16_t x, int16_t y,            // Location to render bitmap (top-left corner)
-	Adafruit_GFX *pGFX,              // Graphics context for rendering.
+	RLEGraphicsContext *pGFX,        // Graphics context for rendering.
 	bool blackIsTransparent = false, // if 'true', black pixels in the bitmap are skipped.
 	uint8_t reduction = 1);          // Factor to reduce the size of the bitmap
+
 
 bool                                  // false if the bitmap and mask are different sizes.
 renderRLEBitmapWithRLEMask(           //
 	const RLEBitmapInfo &bitmapInfo,  // Bitmap information retreived previously.
 	const RLEBitmapInfo &maskInfo,    // Bitmap that acts as a mask.
 	int16_t x, int16_t y,             // Location to render bitmap (top-left corner)
-	Adafruit_GFX *pGFX,               // Graphics context for rendering.
+	RLEGraphicsContext *pGFX,         // Graphics context for rendering.
 	bool blackIsTransparent = false); // if 'true', black pixels in the bitmap are skipped.
+
+
+//
+//  Everything from here down is support for specific graphics libraries.
+//
+
+#ifdef _ADAFRUIT_GFX_H
+
+//  If we've already seen the definition for Adafruit_GFX, we can provide an adaptor that
+//  works 'out of the box'.
+class GFXGraphicsContext : public RLEGraphicsContext
+{
+private:
+	Adafruit_GFX *m_pGFX;
+
+public:
+	GFXGraphicsContext(Adafruit_GFX *pGFX) : m_pGFX(pGFX) {};
+
+	virtual void startWrite() { m_pGFX->startWrite(); };
+	virtual void endWrite() { m_pGFX->endWrite(); };
+	virtual void writeFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color)
+	{ m_pGFX->writeFastHLine(x, y, w, color); };
+};
+
+
+//  These are provided for backwards compatibility with the first release.
+inline void
+renderRLEBitmap(
+	const RLEBitmapInfo &bitmapInfo, // Bitmap information retreived previously.
+	int16_t x, int16_t y,            // Location to render bitmap (top-left corner)
+	Adafruit_GFX *pGFX,              // Graphics context for rendering.
+	bool blackIsTransparent = false, // if 'true', black pixels in the bitmap are skipped.
+	uint8_t reduction = 1)           // Factor to reduce the size of the bitmap
+{
+	GFXGraphicsContext context(pGFX);
+	renderRLEBitmap(bitmapInfo, x, y, &context, blackIsTransparent, reduction);
+}
+
+inline bool                          // false if the bitmap and mask are different sizes.
+renderRLEBitmapWithRLEMask(          //
+	const RLEBitmapInfo &bitmapInfo, // Bitmap information retreived previously.
+	const RLEBitmapInfo &maskInfo,   // Bitmap that acts as a mask.
+	int16_t x, int16_t y,            // Location to render bitmap (top-left corner)
+	Adafruit_GFX *pGFX,              // Graphics context for rendering.
+	bool blackIsTransparent = false) // if 'true', black pixels in the bitmap are skipped.
+{
+	GFXGraphicsContext context(pGFX);
+	return renderRLEBitmapWithRLEMask(bitmapInfo, maskInfo, x, y, &context, blackIsTransparent);
+}
+#endif
+
+
+//  Support for the 'TFT_eSPI' library.
+#ifdef _TFT_eSPIH_
+
+class TFTeSPIGraphicsContext : public RLEGraphicsContext
+{
+private:
+	TFT_eSPI *m_pGFX;
+
+public:
+	GFXGraphicsContext(TFT_eSPI *pGFX) : m_pGFX(pGFX) {};
+
+	virtual void startWrite() { m_pGFX->startWrite(); };
+	virtual void endWrite() { m_pGFX->endWrite(); };
+	virtual void writeFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color)
+	{ m_pGFX->drawFastHLine(x, y, w, color); };
+};
+
+//  These are provided for backwards compatibility with the first release.
+inline void
+renderRLEBitmap(
+	const RLEBitmapInfo &bitmapInfo, // Bitmap information retreived previously.
+	int16_t x, int16_t y,            // Location to render bitmap (top-left corner)
+	TFT_eSPI *pGFX,                  // Graphics context for rendering.
+	bool blackIsTransparent = false, // if 'true', black pixels in the bitmap are skipped.
+	uint8_t reduction = 1)           // Factor to reduce the size of the bitmap
+{
+	TFTeSPIGraphicsContext context(pGFX);
+	renderRLEBitmap(bitmapInfo, x, y, &context, blackIsTransparent, reduction);
+}
+
+inline bool                          // false if the bitmap and mask are different sizes.
+renderRLEBitmapWithRLEMask(          //
+	const RLEBitmapInfo &bitmapInfo, // Bitmap information retreived previously.
+	const RLEBitmapInfo &maskInfo,   // Bitmap that acts as a mask.
+	int16_t x, int16_t y,            // Location to render bitmap (top-left corner)
+	TFT_eSPI *pGFX,                  // Graphics context for rendering.
+	bool blackIsTransparent = false) // if 'true', black pixels in the bitmap are skipped.
+{
+	TFTeSPIGraphicsContext context(pGFX);
+	return renderRLEBitmapWithRLEMask(bitmapInfo, maskInfo, x, y, &context, blackIsTransparent);
+}
+#endif
+
 
 #endif
 

@@ -5,7 +5,6 @@
 //
 
 #include <Arduino.h>
-#include <Adafruit_GFX.h>
 
 #include "RLEBitmap.h"
 
@@ -26,7 +25,7 @@
 //
 //  By creating two different functions to handle reading RLE data, we don't have to keep
 //  checking in the inner loop if the RLE data needs to be read one way or the other - the
-//  decision is the same for any given file.
+//  decision is the same for any given RLE bitmap.
 //
 void GetRLEShortPalette(
 	uint32_t &pData,      //  In, Out - location to read RLE data from, updated
@@ -66,7 +65,7 @@ void
 renderRLEBitmap(
 	const RLEBitmapInfo &bitmapInfo,
 	int16_t x, int16_t y,
-	Adafruit_GFX *pGFX,
+	RLEGraphicsContext *pGFX,
 	bool blackIsTransparent,
 	uint8_t reduction)
 {
@@ -136,7 +135,7 @@ renderRLEBitmapWithRLEMask(
 	const RLEBitmapInfo &bitmapInfo,
 	const RLEBitmapInfo &maskInfo,
 	int16_t x, int16_t y,
-	Adafruit_GFX *pGFX,
+	RLEGraphicsContext *pGFX,
 	bool blackIsTransparent)
 {
 	if ((bitmapInfo.width != maskInfo.width) || (bitmapInfo.height != maskInfo.height))
@@ -195,6 +194,13 @@ renderRLEBitmapWithRLEMask(
 					if (colorBitmap != 0 || !blackIsTransparent)
 					{
 						pGFX->writeFastHLine(xPos, yPos, length, colorBitmap);
+					}
+				}
+				else // Use non-masking color to avoid block erase flicker
+				{
+					if (!blackIsTransparent)
+					{
+						pGFX->writeFastHLine(xPos, yPos, length, colorMask);
 					}
 				}
 
