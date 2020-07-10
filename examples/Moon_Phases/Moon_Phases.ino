@@ -1,16 +1,23 @@
 //
 //  Demonstrate drawing moon phases.  Tested on a Wemos D1 R32 (esp32 based), and a Mega
-//  2560.
+//  2560, using a Waveshare 4" TFT screen (GFX API)
 //
 
 #include <Arduino.h>
 #include <SPI.h>
 
+// *************************************************************************************
+//  If your screen uses the Adafruit GFX API, then use these lines to set things up.
 #include <Adafruit_gfx.h>
-
 //  Replace this with the include files for your particular display
 #include <Waveshare_ILI9486.h>
 
+// If your screen uses TFT_eSPI, then comment out the Adafruit lines above, and use the
+// following:
+//  #include <TFT_eSPI.h>
+
+
+// The RLE code will provide support based on the files included above.
 #include <RLEBitmap.h>
 
 //  If you'd like a different size, just pick the corresponding header file.
@@ -18,8 +25,15 @@
 
 #include "HtmlColors.h"
 
+
+
+//  *************************************************************************************
 //  Replace this with the declaration for your particular display
 Waveshare_ILI9486 MyTFT;
+
+// TFT_eSPI MyTFT = TFT_eSPI();
+
+
 
 //
 //  The easiest way to deal with the masks is to use function pointers (rather than data
@@ -122,7 +136,7 @@ void loop()
 	RLEBitmapInfo bmMoon;
 	RLEBitmapInfo bmMask;
 
-	//  Calulate the mask for the given time.
+	//  Calculate the mask for the given time.
 	unsigned int mask_index = lunation(t, COUNTOF(mask_functions));
 
 	//  Get the bitmap info for the moon image and the mask.
