@@ -18,17 +18,16 @@ As an example, the 'chanceflurries' icon (like all the others) has 16384 (16K) p
 
 ![Icon for 'chance of flurries'](https://raw.githubusercontent.com/MHotchin/RLEBitmap/master/extras/Images/Weather/chanceflurries.bmp)
 
-Here are all the icons, reduced to 64x64.  The files with 'nt_' at the front are the night-time variants.
-
+Here are all the icons, reduced to 64x64.  The files with 'nt_' at the front are the night-time variants.<br>
 ![Weather Contact Sheet](https://github.com/MHotchin/RLEBitmap/blob/master/extras/Images/Weather/weather.png)
 
 The moon images are provided at many different sizes, from 32x32 to 320x320 pixels.  Each image set consists of one full image of the moon, and 32 different masks for the moon phases.  The moon image is from [NASA](https://www.nasa.gov/feature/goddard/2016/novembers-spectacular-supermoon), and as such has no copyright.
 
-The moon images have many more, and much smaller, areas of each color, and as such does not compress as well as the weather icons.  The 128x128 image of the moon (below) compresses to about 8400 bytes (about 1/4 native size).
+The moon images have many more, and much smaller, areas of each color, and as such does not compress as well as the weather icons.  The 128x128 image of the moon (below) compresses to about 8400 bytes (about 1/4 native size).<br>
 ![Moon 128x128](https://raw.githubusercontent.com/MHotchin/RLEBitmap/master/extras/Images/moon/images/moon_128.bmp)
 
-The 64x64 image is just under 2400 bytes:
-![Moon 128x128](https://raw.githubusercontent.com/MHotchin/RLEBitmap/master/extras/Images/moon/images/moon_64.bmp)
+The 64x64 image is just under 2400 bytes:<br>
+![Moon 64x64](https://raw.githubusercontent.com/MHotchin/RLEBitmap/master/extras/Images/moon/images/moon_64.bmp)
 
 The largest image, 320x320 uses about 50KB.  The larger images are not practical on smaller AVR based boards, but would work on (for example) Mega 2560.
 
