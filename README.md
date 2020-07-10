@@ -3,9 +3,10 @@ Run Length Encoded bitmaps for the Arduino
 
 Run Length Encoding (RLE) is a very simple compression format for images.  Its works best on images that have a limited number of different colors, with relatively large regions of each color.
 
-This project provides code both to generate RLE encodings from existing bitmap (.BMP) files, and the code to render these images on any system that supports an AdaFruit 'GFX' style display interface.
+This project provides code both to generate RLE encodings from existing bitmap (.BMP) files, and the code to render these images on any system that supports an AdaFruit 'GFX' style display interface, or the TFT_eSPI interface.  Other interfaces are easily supported.
 
-If you are using the 'TFT_eSPI' library, there is a compatible fork [here](https://github.com/Bodmer/RLEBitmap).
+~~If you are using the 'TFT_eSPI' library, there is a compatible fork [here](https://github.com/Bodmer/RLEBitmap).~~
+As of version 1.1.0, TFT_eSPI is now supported.
 
 Also included are images suitable for weather reporting and forecasting, and images for displaying the phase of the moon.
 
