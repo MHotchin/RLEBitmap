@@ -5,6 +5,8 @@ Run Length Encoding (RLE) is a very simple compression format for images.  Its w
 
 This project provides code both to generate RLE encodings from existing bitmap (.BMP) files, and the code to render these images on any system that supports an AdaFruit 'GFX' style display interface.
 
+If you are using the 'TFT_eSPI' library, there is a compatible fork [here](https://github.com/Bodmer/RLEBitmap).
+
 Also included are images suitable for weather reporting and forecasting, and images for displaying the phase of the moon.
 
 The weather icons are based on a set originally designed by [Ashley Jager](http://ashleyjager.com/weather-underground).  There are 40 icons total (20 day, 20 night), however many of the night icons are actually the same as their day counterparts.  The icons are 128x128 pixels, and the code allows rendering at smaller sizes.
