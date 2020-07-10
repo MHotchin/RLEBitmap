@@ -355,3 +355,18 @@ MigrationBackup/
 /examples/Moon_Phases/__vm/Compile.vmps.xml
 /examples/Moon_Phases/__vm/.Moon_Phases.vsarduino.h
 /examples/Moon_Phases/__vm/Upload.vmps.xml
+/examples/Moon_Phases/Moon_Phases.sln
+
+# All generated images
+/extras/Images/moon/images/32/**
+/extras/Images/moon/images/48/**
+/extras/Images/moon/images/64/**
+/extras/Images/moon/images/96/**
+/extras/Images/moon/images/128/**
+/extras/Images/moon/images/160/**
+/extras/Images/moon/images/200/**
+/extras/Images/moon/images/240/**
+/extras/Images/moon/images/256/**
+/extras/Images/moon/images/320/**
+
+
