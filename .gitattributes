@@ -1,1 +1,2 @@
 *.h     text diff=cpp
+*.h     linguist-language=C++
