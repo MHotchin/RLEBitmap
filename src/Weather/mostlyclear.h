@@ -167,7 +167,7 @@ const byte mostlyclear_RLEBM_data[] PROGMEM_LATE =
 const uint16_t mostlyclear_RLEBM_palette[] PROGMEM_LATE = 
 {
 	// Palette has 3 entries
-	0x0000, 0xf523, 0xffff, 
+	0x0000, 0xe500, 0xffff, 
 };
 
 
