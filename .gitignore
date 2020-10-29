@@ -372,3 +372,6 @@ MigrationBackup/
 
 /extras/Images/bmper.exe
 /src/Weather/Back
+/extras/Images/Weather2/Processed
+/extras/Images/Weather2/Thumbs.db
+/extras/Images/Weather2/back
