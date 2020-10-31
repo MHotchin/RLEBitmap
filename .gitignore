@@ -375,3 +375,9 @@ MigrationBackup/
 /extras/Images/Weather2/Processed
 /extras/Images/Weather2/Thumbs.db
 /extras/Images/Weather2/back
+/extras/Images/WeatherAPI_com/128x128/day/Processed
+/extras/Images/WeatherAPI_com/128x128/night/Processed
+/extras/Images/WeatherAPI_com/64x64/day/Processed
+/extras/Images/WeatherAPI_com/64x64/night/Processed
+/src/WeatherAPI_com/test
+/src/test
